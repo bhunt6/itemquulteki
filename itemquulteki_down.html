@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="style_analyzer.css">
+		<title>Itemquulteki</title>
+		<script type="text/javascript" src = "dictionary_js/foma_apply_down.js"></script>
+		<script type="text/javascript" src = "dictionary_js/foma_print.js"></script>
+		<!--<script type="text/javascript" src = "dictionary_js/transducer.js"></script>-->
+		<script type="text/javascript" src = "dictionary_js/transducer_inverted.js"></script>
+		<script type="text/javascript" src = "dictionary_js/cyrillic_convert.js"></script>
+		<script type="text/javascript" src = "dictionary_js/postbases_infl.js"></script>
+
+		<!--Icon set created by Lane Schwartz (lanes@illinois.edu)-->
+		<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
+		<link rel="manifest" href="icons/site.webmanifest">
+		<link rel="mask-icon" href="icons/safari-pinned-tab.svg" color="#50b5c2">
+		<meta name="msapplication-TileColor" content="#b0e0e6">
+		<meta name="theme-color" content="#b0e0e6">
+
+	</head>
+	<body onload = "setValue();">
+
+		<div class="grid">
+			<div class="title"><h1>Itemquulteki</h1></div>
+			<div class="nav">
+				<div class="box util"><a href="index_utilities.html"><img src="icons/utilities_icon_small.png"></a></div>
+				<div class="box dict"><a href="index_dictionary_transducer.html"><img src="icons/book_icon_small.png"></a></div>
+				<div class="box map"><a href="index_analyzer.html"><img src="icons/analyzer_icon_small.png"></a></div>
+				<div class="box vid"><a href="index_template.html"><img src="icons/play_icon_small.png"></a></div>
+				<div class="box disc"><a href="index_template.html"><img src="icons/chat_icon_small.png"></a></div>
+				<div class="box info"><a href="index_info.html"><img src="icons/info_icon_small.png"></a></div>
+				<div class="box home"><a href="index_main.html"><img src="icons/home_icon.png"></a></div>
+			</div>
+			<div class="header"><h2><i>Let's take them apart.</i></h2></div>
+			<div class="content">
+				<div class="input_cont" id="input_cont">
+					<input type="text" class = "input" name = "field1" id = "field1" placeholder = "Enter Yupik word" autocomplete="off"></input>
+				</div>
+				<div class="input_cont2" id="input_cont2">
+					<input class = "input2" type="text" name = "field2" id = "field2" placeholder = "Enter base" autocomplete="off"></input>
+					<div class = "plus_cont" id = "plus_cont" onclick="addPostbase();"><div><div class = "plus"></div></div></div>
+					<select class = "input2" id = "noun_verb" onchange="populate(this.id, 'caseMood'); populate(this.id, 'perNum');">
+						<option value = "default">Part of Speech</option>
+						<option value = "[N]">Noun</option>
+						<option value = "[V][Trns]">Verb (Trns)</option>
+						<option value = "[V][Intr]">Verb (Intr)</option>
+					</select>
+					<select class = "input2" id = "caseMood">
+							<option value = "default">Case/Mood</option>
+					</select>
+					<select class = "input2" id = "perNum">
+						<option value = "default">Person/Number</option>
+					</select>
+				</div>
+				<div class="filter">
+					<div class="apply_up">
+							<input type="radio" id="up" name="direction" class="button" onclick="toggle('input2');">
+								<a>
+									<label for="up">Generate</label>
+								</a>
+					</div>
+					<div class="apply_down">
+							<input type="radio" id="down" name="direction" class="button" checked onclick="toggle('input');">
+								<a>
+									<label for="down">Parse</label>
+								</a>
+					</div>
+				</div>
+				<div class="search_cont">
+					<div class="search">
+						<a>
+							<button type="submit" value="submit" id = "search" class = "button"></button>
+							<label for="search">Engage</label>
+						</a>
+					</div>
+				</div>
+
+				<div id = "output" class="output" style = "width: 100%"></div>
+
+			</div>
+			<div class="footer">
+				<div class="box one">Contact</div>
+				<div class="box two">Contribute</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+
+		function setValue() {
+			//check apply down button to account for caching
+			document.getElementById("down").checked = true;
+
+			var input2 = document.getElementsByClassName("input2");
+			//set the apply up inputs to grey and disabled
+			for(var i=0; i<input2.length; i++){
+				input2[i].style.borderColor = "grey";
+				input2[i].disabled = true;
+			}
+		}
+
+		function addPostbase() {
+			//create the select list
+			var pb = document.createElement("select")
+			pb.className = "input2";
+
+			//populate the list's options from postbase array
+			var optionArray = postBasesAll;
+			for(var option in optionArray){
+				var newOption = document.createElement("option");
+				newOption.value = optionArray[option];
+				newOption.innerHTML = optionArray[option];
+				pb.options.add(newOption);
+			}
+
+			//get plus element and insert new list after it
+			var plus = document.getElementById("plus_cont");
+			plus.insertAdjacentElement('afterend', pb);
+			//set border to blue and enable input2 section
+			toggle("input2");
+			//select apply up button
+			document.getElementById("up").click();
+			//add enter key listener to new select list
+			enterKey(pb);
+		}
+
+		//populate caseMood and perNum lists based on user input in noun_verb
+		function populate(s1, s2) {
+				var slct1 = document.getElementById(s1);
+				var slct2 = document.getElementById(s2);
+				slct2.innerHTML = "";
+
+				//handle caseMood list
+				if(s2 == "caseMood"){
+					if(slct1.value =="[N]"){
+						var optionArray = nounCase;
+					}
+					else if (slct1.value == "[V][Trns]" || slct1.value =="[V][Intr]"){
+						var optionArray = verbMood;
+					}
+				}
+				//handle perNum list
+				else if (s2 == "perNum") {
+					if(slct1.value =="[N]"){
+						var optionArray = nounInfl;
+					}
+					else if(slct1.value =="[V][Trns]"){
+						var optionArray = verbInflTrns;
+					}
+					else if (slct1.value == "[V][Intr]"){
+						var optionArray = verbInflIntr;
+					}
+				}
+				//populate list
+				for(var option in optionArray){
+ 					var newOption = document.createElement("option");
+					newOption.value = optionArray[option];
+					newOption.innerHTML = optionArray[option];
+					slct2.options.add(newOption);
+				}
+		}
+
+		function toggle(theInput) {
+				//set the apply down input bar to grey
+		    document.getElementById("field1").style.borderColor = "grey";
+				document.getElementById("field1").disabled = true;
+				//get the apply up inputs in input_cont2
+		    var input2 = document.getElementsByClassName("input2");
+				//set the apply up inputs to grey
+				for(var i=0; i<input2.length; i++){
+					input2[i].style.borderColor = "grey";
+					input2[i].disabled = true;
+				}
+				//get whichever input is indicated
+		    var inp = document.getElementsByClassName(theInput);
+				//change that input to blue
+				for(var i=0; i<inp.length; i++){
+					inp[i].style.borderColor = "#5b9bd5";
+					inp[i].disabled = false;
+				}
+		}
+
+		//use enter key to search
+		function enterKey(element) {
+			element.addEventListener("keyup", function(event) {
+				// 13 is "Enter"
+			  if (event.keyCode === 13) {
+			    event.preventDefault();
+			    // Trigger the button with a click
+			    document.getElementById("search").click();
+				}
+			});
+		}
+			// use enter key to search from both input fields
+			var input = document.getElementById("field1");
+			enterKey(input);
+
+			var input2 = document.getElementsByClassName("input2");
+			for(var i=0; i<input2.length; i++) {
+				enterKey(input2[i]);
+			}
+
+		document.getElementById("search").addEventListener("click", function () {
+			//run Apply Down
+			if(document.getElementById("down").checked){
+
+				let transducer = myNet
+				var userInputRaw = document.getElementById("field1").value;
+				// This search is for matching nouns in absolutive
+				var userInput = cyrillic_to_latin(userInputRaw);
+
+				var result = foma_apply_down(transducer, userInput);
+
+				//print error message
+				if (result === undefined || result.length == 0) {
+					fomaPrint("dummy",0);
+				}
+				else {
+					/*
+					// token is a 2D array
+					------------------------------------------------------
+					base1 | postbase11 | postbase22 | infl1      |       |
+					------------------------------------------------------
+					base2 | postbase21 | postbase22 | postbase23 | infl2 |
+					------------------------------------------------------
+					base3 | infl3      |            |            |       |
+					------------------------------------------------------
+					*/
+						var token = new Array;
+	        	    for (var i = 0; i < result.length; i++) {
+						/*
+						morphemes is a 1D array
+						-----------------------------------------
+						base | postbase | ... | postbase | infl |
+						-----------------------------------------
+						*/
+	        	     		var morphemes = new Array;
+						/*
+						inflNotSplit is a 1D array
+						---------------------------------------
+						base | postbase | ... | postbase+infl |
+						---------------------------------------
+						*/
+	        			var inflNotSplit = result[i].split("-");
+						// Splits the [N] or [V] inflection tags
+						// from the postbase it's attached to
+						var inflSplit = new Array;
+
+						for (var m = 0; m < inflNotSplit.length; m++) {
+							if (inflNotSplit[m].includes("[N]")) {
+								inflSplit = inflNotSplit[m].split("[N]");
+								tmp = morphemes.concat(inflSplit);
+								morphemes = tmp;
+							}
+							else if (inflNotSplit[m].includes("[V]")) {
+								inflSplit = inflNotSplit[m].split("[V]");
+								tmp = morphemes.concat(inflSplit);
+								morphemes = tmp;
+							}
+							else {
+								morphemes.push(inflNotSplit[m]);
+							}
+						}
+
+						token.push(morphemes)
+					}
+
+					fomaPrint(token, 1);
+				} // End 'else' statement
+			}
+
+			//run Apply Up
+			else{
+				//get output area
+				var results = document.getElementById("output");
+
+				//get input from input2 elements
+				var userInputElements = document.getElementsByClassName("input2");
+				var userInputRaw = new Array;
+				for(var i=0; i<userInputElements.length; i++) {
+					userInputRaw[i] = userInputElements[i].value;
+				}
+
+				//create string from input2 values
+				var userInput = userInputRaw.join("");
+				let transducer = myNetInvert
+				var result = foma_apply_down(transducer, userInput);
+
+				//print error message
+				if (result === undefined || result.length == 0) {
+					fomaPrint("dummy",0);
+				}
+				else {
+					fomaPrint(result,1);
+				}
+	    }
+	});
+		</script>
+	</body>
+</html>
