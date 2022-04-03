@@ -13,10 +13,10 @@
 	display: grid;
 	min-height: 100%;
 	grid-template-columns: 1fr 3fr 3fr 1fr;
-	grid-template-rows: 170px 145px 100px 60px minmax(200px, auto) 70px;
+	grid-template-rows: 170px 145px minmax(100px, auto) 60px minmax(200px, auto) 70px;
 	grid-template-areas: 
 		"title title title title"
-		". . nav ."
+		". switch nav ."
 		". search search ."
 		". parse parse ."
 		". results results ."
@@ -40,7 +40,7 @@
 	width: 110px;
 	position: relative;
 	background: #EF9D87;
-	bottom: -34px;
+	bottom: -35px;
 	right: -80px;
 }
 
@@ -72,6 +72,17 @@
 	margin: 20px 20px 0px 0px;
 }
 
+.switch{
+	grid-area: switch;
+	display: flex;
+	float: left;
+	justify-content: flex-start;
+}
+
+.switch a{
+	margin: 20px 20px 0px 0px;
+}
+
 .search{
 	grid-area: search;
 	display: flex;
@@ -80,8 +91,10 @@
 }
 
 input[type=text]{
-    height: 38px;
-    width: 700px;
+	flex: 1;
+    height: 38px; 
+	max-width: 700px;
+	min-width: 125px;
     font-size: 18px;
     font-weight: lighter;
 	color: #4c4f53;
@@ -92,6 +105,19 @@ input[type=text]{
 
 ::placeholder{
 	color: #A9A9A9;
+}
+
+select{
+	height: 38px;
+    font-size: 18px;
+    font-weight: lighter;
+	max-width: 150px;
+	color: #4c4f53;
+    padding-top: 3px;
+	border: none;
+    border-bottom: 2px solid #666666;
+	background-color: #FFF;
+	margin: 4.5px 5px 0px 5px;
 }
 
 input[type=button]{
@@ -109,6 +135,62 @@ input[type=button]{
 
 input[type=button]:hover{
 	background: #ef9d87;
+}
+
+.plus_cont {
+	height: 40px;
+	width: 40px;
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.plus_cont div {
+	height: 20px;
+	width: 20px;
+}
+
+.plus_cont:hover .plus {
+	background: #b0e0e6;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.plus {
+	float: left;
+	shape-outside: polygon(7.5px 0, 12.5px 0, 12.5px 7.5px, 20px 7.5px, 20px 12.5px, 12.5px 12.5px, 12.5px 20px, 7.5px 20px, 7.5px 12.5px, 0 12.5px, 0 7.5px, 7.5px 7.5px);
+	clip-path: polygon(7.5px 0, 12.5px 0, 12.5px 7.5px, 20px 7.5px, 20px 12.5px, 12.5px 12.5px, 12.5px 20px, 7.5px 20px, 7.5px 12.5px, 0 12.5px, 0 7.5px, 7.5px 7.5px);
+	height: 20px;
+	width: 20px;
+	background: #4c4f53;
+}
+
+.minus_cont {
+	height: 40px;
+	width: 40px;
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.minus_cont div {
+	height: 20px;
+	width: 20px;
+}
+
+.minus_cont:hover .minus {
+	background: #b0e0e6;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.minus {
+	float: left;
+	shape-outside: polygon(0 7.5px, 20px 7.5px, 20px 12.5px, 0 12.5px);
+	clip-path: polygon(0 7.5px, 20px 7.5px, 20px 12.5px, 0 12.5px);
+	height: 20px;
+	width: 20px;
+	background: #4c4f53;
 }
 
 .parse{
