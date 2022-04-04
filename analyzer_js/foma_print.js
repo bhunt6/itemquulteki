@@ -11,7 +11,7 @@ function fomaPrint(tkn, valid) {
 	else {
 		document.getElementById("parse").style.display = "flex";
 		for (var i = 0; i < tkn.length; i++) {
-			content.innerHTML += `<p>${tkn[i].join(" + ")}</p>`;
+			content.innerHTML += `<p>&#8227; ${tkn[i].join(" + ")}</p>`;
 			content.innerHTML += "<br />".repeat(2);
 		}
 		results.appendChild(content);
