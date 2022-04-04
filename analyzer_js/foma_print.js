@@ -17,5 +17,3 @@ function fomaPrint(tkn, valid) {
 		results.appendChild(content);
 	}
 }
-
-
