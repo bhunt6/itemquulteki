@@ -18,6 +18,16 @@
 		<link rel="mask-icon" href="icons/safari-pinned-tab.svg" color="#50b5c2">
 		<meta name="msapplication-TileColor" content="#b0e0e6">
 		<meta name="theme-color" content="#b0e0e6">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<script>
+			$(function () {
+				$("#nav").load("nav.html");
+			});
+
+			$(function () {
+				$("#footer").load("footer.html");
+			});
+		</script>
 
 	</head>
 	<body>
@@ -36,16 +46,7 @@
 				<a href="index.html" data-title="Parse"><img src="icons/parse.png" width="52" height="46" alt="" /></a>
 				<a href="itemquulteki_down.html" data-title="Generate"><img src="icons/generate.png" width="52" height="46"alt="" /></a>
 			</div>
-			<div class="nav">
-				<a href="https://ldl.linguistics.gmu.edu/" data-title="GMU LangDoc Lab Group"><img src="icons/lab_group.png"
-						width="51" height="42" alt="" /></a>
-				<a href="#" data-title="Yupik Corpus"><img src="icons/corpus.png" width="52" height="37" alt="" /></a>
-				<a href="https://bhunt6.github.io/akuzipigestun-sangaawa/" data-title="Dictionary"><img src="icons/dictionary.png"
-						width="41" height="44" alt="" /></a>
-				<a href="https://saintlawrenceislandyupik.github.io/web_tools/index_utilities.html"
-					data-title="Orthotactic Spellchecker"><img src="icons/spellchecker.png" width="53" height="51" alt="" /></a>
-				<a href="#" data-title="Contact Us"><img src="icons/contact.png" width="52" height="37" alt="" /></a>
-			</div>
+			<div class="nav"></div>
 			<div class="search">
 				<input class="input2" type="text" name="field2" id="field2" placeholder="enter base..." autocomplete="off"></input>
 				<div class="plus_cont" id="plus_cont" onclick="addPostbase();">
@@ -94,26 +95,6 @@
 					}
 				});
 			}
-			
-		function oldAddPostbase() {
-			//create the select list
-			var pb = document.createElement("select")
-			pb.className = "input2";
-
-			//populate the list's options from postbase array
-			var optionArray = postBasesAll;
-			for(var option in optionArray){
-				var newOption = document.createElement("option");
-				newOption.value = optionArray[option];
-				newOption.innerHTML = optionArray[option];
-				pb.options.add(newOption);
-			}
-
-			//get plus element and insert new list after it
-			let minus = document.getElementById("minus_cont");
-			minus.insertAdjacentElement('afterend', pb);
-			//set border to blue and enable input2 section
-		}
 
 		function addPostbase() {
 			const select = document.createElement("select");
