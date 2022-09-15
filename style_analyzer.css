@@ -107,11 +107,15 @@ input[type=text]{
 	color: #A9A9A9;
 }
 
+#select_cont{
+	display: flex;
+	flex-flow: row;
+}
+
 select{
 	height: 38px;
     font-size: 18px;
     font-weight: lighter;
-	max-width: 150px;
 	color: #4c4f53;
     padding-top: 3px;
 	border: none;
