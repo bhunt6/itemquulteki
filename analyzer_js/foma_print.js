@@ -9,6 +9,7 @@ function fomaPrint(tkn, valid) {
 	}
 
 	else {
+		tkn.sort((a, b) => a.length - b.length);
 		document.getElementById("parse").style.display = "flex";
 		for (var i = 0; i < tkn.length; i++) {
 			content.innerHTML += `<p>&#8227; ${tkn[i].join(" + ")}</p>`;
