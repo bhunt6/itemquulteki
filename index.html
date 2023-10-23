@@ -56,7 +56,7 @@
             </div>
             <div class="results" id="results"></div>
             <div class="footer" id="footer">
-                © 2021 St.Lawrence Island
+                © 2023 St.Lawrence Island
             </div>
         </div>
         <script type="text/javascript">
@@ -71,7 +71,7 @@
             });
 
             const buttonSearch = (e) => {
-                const searchString = searchInput.value.toLowerCase();
+                const searchString = searchInput.value.toLowerCase().trim();
                 let transducer = myNet
                 var userInput = cyrillic_to_latin(searchString);
 
