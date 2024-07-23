@@ -27,7 +27,7 @@ function fomaPrint(tkn, valid) {
 					content.innerHTML += `<a target="_blank" rel="noopener noreferrer" href="https://bhunt6.github.io/akuzipigestun-sangaawa/results.html?search=-${tkn[i][j].toLowerCase().replace(/[\@\–\-\+\?\±\%\:\₁]/g, "").replace(/\<su[bp]\>[\d*ef]\<\/su[bp]\>/g, "").replace(/\[.*\]/g,"").replace(/\~[sf]*/g, "").replace(/\(.*\)/g,"")}-&lang=akuz">${tkn[i][j]}</a> `;
 				}
 				else if(!re.test(tkn[i][j])) {
-					final.append(tkne[i][j]);
+					final.append(tkn[i][j]);
 				}
 				else{ 
 					content.innerHTML += `+ <a target="_blank" rel="noopener noreferrer" href="https://bhunt6.github.io/akuzipigestun-sangaawa/results.html?search=${tkn[i][j].toLowerCase()}&lang=akuz">${tkn[i][j]}</a> `;
