@@ -23,13 +23,13 @@ function fomaPrint(tkn, valid) {
 			content.innerHTML += `&#8227; `; 
 			for (let j = 0; j<tkn[i].length; j++){
 				if(j==0) { 
-					content.innerHTML += `<a target="_blank" rel="noopener noreferrer" href="https://bhunt6.github.io/akuzipigestun-sangaawa/results.html?search=${tkn[i][j].toLowerCase()}&lang=akuz">${tkn[i][j]}</a> + `;
+					content.innerHTML += `<a target="_blank" rel="noopener noreferrer" href="https://bhunt6.github.io/akuzipigestun-sangaawa/index.html?search=${tkn[i][j].toLowerCase()}&lang=akuz">${tkn[i][j]}</a> + `;
 				}
 				else if(!tkn[i][j].includes("→")) {
 					final.push(tkn[i][j]);
 				}
 				else {
-					content.innerHTML += `<a target="_blank" rel="noopener noreferrer" href="https://bhunt6.github.io/akuzipigestun-sangaawa/results.html?search=-${tkn[i][j].toLowerCase().replace(/[\@\–\-\+\?\±\%\:\₁]/g, "").replace(/\<su[bp]\>[\d*ef]\<\/su[bp]\>/g, "").replace(/\[.*\]/g,"").replace(/\~[sf]*/g, "").replace(/\(.*\)/g,"")}-&lang=akuz">${tkn[i][j]}</a> + `;
+					content.innerHTML += `<a target="_blank" rel="noopener noreferrer" href="https://bhunt6.github.io/akuzipigestun-sangaawa/index.html?search=-${tkn[i][j].toLowerCase().replace(/[\@\–\-\+\?\±\%\:\₁]/g, "").replace(/\<su[bp]\>[\d*ef]\<\/su[bp]\>/g, "").replace(/\[.*\]/g,"").replace(/\~[sf]*/g, "").replace(/\(.*\)/g,"")}-&lang=akuz">${tkn[i][j]}</a> + `;
 				}
 			}
 			content.innerHTML += final.join(" + ");
