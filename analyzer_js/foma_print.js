@@ -18,7 +18,8 @@ function fomaPrint(tkn, valid) {
 	else {
 		tkn.sort((a, b) => a.length - b.length);
 		document.getElementById("parse").style.display = "flex";
-		for (let i = 0; i < tkn.length; i++) {
+		//for (let i = 0; i < tkn.length; i++) { code to print all results
+		for (let i = 0; i < 50; i++) {
 			let final = [];
 			content.innerHTML += `&#8227; `; 
 			for (let j = 0; j<tkn[i].length; j++){
